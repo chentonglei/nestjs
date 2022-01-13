@@ -1,4 +1,11 @@
-import { Controller, Dependencies, Get, Post } from '@nestjs/common';
+import {
+  Controller,
+  Dependencies,
+  Get,
+  Post,
+  Body,
+  Bind,
+} from '@nestjs/common';
 import { HelloService } from '../services/hello.service';
 
 @Controller('/hello')
@@ -8,7 +15,8 @@ export class HelloController {
     this.helloService = helloService;
   }
   @Post()
-  getHello() {
-    return this.helloService.getHello();
+  @Bind(Body())
+  async getHello(data) {
+    return await this.helloService.getHello(data);
   }
 }
