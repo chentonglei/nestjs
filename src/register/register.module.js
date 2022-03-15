@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import HelloControllers from './controllers';
-import HelloServices from './services';
+import ShowControllers from './controllers';
+import ShowService from './services';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import entities from '../entities';
 
 @Module({
   imports: [TypeOrmModule.forFeature(entities)],
-  controllers: HelloControllers,
-  providers: [...HelloServices],
+  controllers: ShowControllers,
+  providers: [...ShowService],
 })
-export class HelloModule {}
+export class RegisterModule {}
