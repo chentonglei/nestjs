@@ -10,14 +10,13 @@ import { ShowService } from '../services/show.service';
 
 @Controller('register')
 @Dependencies(ShowService)
-export class ShowController {
+export class PasswordController {
   constructor(showService) {
     this.showService = showService;
   }
-  @Post('show') //获取列表
+  @Post('password') //初始化密码
   @Bind(Body()) //data为body的数据
   async getList(data) {
-    const { current, pageSize, ...searchKeys } = data;
-    return await this.showService.getList(current, pageSize, searchKeys);
+    return await this.showService.getPassword(data);
   }
 }

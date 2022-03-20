@@ -39,4 +39,7 @@ export class Register {
 
   @Column({ type: Number })
   Re_school_id;
+
+  @Column({ type: String })
+  Re_img;
 }

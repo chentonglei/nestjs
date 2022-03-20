@@ -10,14 +10,13 @@ import { ShowService } from '../services/show.service';
 
 @Controller('register')
 @Dependencies(ShowService)
-export class ShowController {
+export class DoitController {
   constructor(showService) {
     this.showService = showService;
   }
-  @Post('show') //获取列表
+  @Post('doit') //审核同意/拒绝
   @Bind(Body()) //data为body的数据
-  async getList(data) {
-    const { current, pageSize, ...searchKeys } = data;
-    return await this.showService.getList(current, pageSize, searchKeys);
+  async getDoit(data) {
+    return await this.showService.getDoit(data);
   }
 }

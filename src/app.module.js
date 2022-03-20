@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RegisterModule } from './register/register.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { IntroductionModule } from './introduction/introduction.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: false, //同步数据库 false就不会乱改数据库导致修改长度 非空等
     }),
     RegisterModule,
+    IntroductionModule,
   ],
   /*   controllers: [AppController],
   providers: [AppService], */

@@ -24,4 +24,10 @@ export class Comment {
 
   @Column({ type: String })
   Com_be_id;
+
+  @Column({ type: String })
+  Com_type;
+
+  @Column({ type: String })
+  Com_type_id;
 }
