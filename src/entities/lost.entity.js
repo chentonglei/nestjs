@@ -33,4 +33,7 @@ export class Lost {
 
   @Column({ type: String })
   Lost_send_time;
+
+  @Column({ type: Number })
+  Return_id;
 }

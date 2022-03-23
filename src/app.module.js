@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { RegisterModule } from './register/register.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { IntroductionModule } from './introduction/introduction.module';
-
+import { LostModule } from './lost/lost.module';
+import { ReturnModule } from './return/return.module';
+import { RecruitModule } from './recruit/recruit.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -17,6 +19,9 @@ import { IntroductionModule } from './introduction/introduction.module';
     }),
     RegisterModule,
     IntroductionModule,
+    LostModule,
+    ReturnModule,
+    RecruitModule,
   ],
   /*   controllers: [AppController],
   providers: [AppService], */

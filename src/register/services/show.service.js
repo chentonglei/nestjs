@@ -17,6 +17,8 @@ export class ShowService {
       .createQueryBuilder()
       .where(searchKeys.Re_id ? 'Re_id LIKE :id' : {})
       .andWhere(searchKeys.Re_name ? 'Re_name LIKE :name' : {})
+      .andWhere({ Re_power: 'user' })
+      .andWhere(searchKeys.Re_status ? 'Re_status LIKE :status' : {})
       .andWhere(searchKeys.Re_telephone ? 'Re_telephone LIKE :telephone' : {})
       .andWhere(
         searchKeys.Re_school_name ? 'Re_school_name LIKE :school_name' : {},
@@ -29,12 +31,15 @@ export class ShowService {
         telephone: `%${searchKeys.Re_telephone}%`,
         school_name: `%${searchKeys.Re_school_name}%`,
         school_id: `%${searchKeys.Re_school_id}%`,
+        status: `%${searchKeys.Re_status}%`,
       })
       .getCount();
     const message = await this.register
       .createQueryBuilder()
       .where(searchKeys.Re_id ? 'Re_id LIKE :id' : {})
       .andWhere(searchKeys.Re_name ? 'Re_name LIKE :name' : {})
+      .andWhere({ Re_power: 'user' })
+      .andWhere(searchKeys.Re_status ? 'Re_status LIKE :status' : {})
       .andWhere(searchKeys.Re_telephone ? 'Re_telephone LIKE :telephone' : {})
       .andWhere(
         searchKeys.Re_school_name ? 'Re_school_name LIKE :school_name' : {},
@@ -47,6 +52,7 @@ export class ShowService {
         telephone: `%${searchKeys.Re_telephone}%`,
         school_name: `%${searchKeys.Re_school_name}%`,
         school_id: `%${searchKeys.Re_school_id}%`,
+        status: `%${searchKeys.Re_status}%`,
       })
       .skip((current - 1) * pageSize)
       .take(pageSize) //分页操作
@@ -92,5 +98,18 @@ export class ShowService {
       if (num.affected >= 1) return { result: 'true', msg: '已拒绝' };
       else return { result: 'false', msg: '拒绝失败' };
     }
+  }
+  async getDelete(array) {
+    var sum = 0;
+    for (var i = 0; i < array.length; i++) {
+      const num = await this.register.delete(array[i]);
+      if (num.affected >= 1) sum += num.affected;
+    }
+    if (sum >= 1)
+      return {
+        result: 'true',
+        msg: `总共${array.length}条，删除成功${sum}条`,
+      };
+    else return { result: 'false', msg: '删除失败，请重试' };
   }
 }

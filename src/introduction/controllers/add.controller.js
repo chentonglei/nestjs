@@ -10,18 +10,13 @@ import { IntroductionService } from '../services/introduction.service';
 
 @Controller('introduction')
 @Dependencies(IntroductionService)
-export class ShowController {
+export class AddController {
   constructor(introductionService) {
     this.introductionService = introductionService;
   }
-  @Post('show') //获取列表
+  @Post('add') //获取列表
   @Bind(Body()) //data为body的数据
-  async getList(data) {
-    const { current, pageSize, ...searchKeys } = data;
-    return await this.introductionService.getList(
-      current,
-      pageSize,
-      searchKeys,
-    );
+  async getAdd(data) {
+    return await this.introductionService.getAdd(data);
   }
 }

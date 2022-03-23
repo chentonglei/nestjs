@@ -42,4 +42,19 @@ export class IntroductionService {
     /* const num = await this.user.delete(data.id); //删除 */
     return { data: message, success: true, total };
   }
+  async getAdd(data) {
+    const num = await this.introduction.insert(data); //添加
+    if (num.raw.affectedRows >= 1) return { result: 'true', msg: '添加成功' };
+    else return { result: 'false', msg: '添加失败，请重试' };
+  }
+  async getDelete(data) {
+    const num = await this.introduction.delete(data.Intr_id); //添加
+    if (num.affected >= 1) return { result: 'true', msg: '删除成功' };
+    else return { result: 'false', msg: '删除失败，请重试' };
+  }
+  async getUpdate(data) {
+    const num = await this.introduction.update(data.Intr_id, data); //添加
+    if (num.affected >= 1) return { result: 'true', msg: '修改成功' };
+    else return { result: 'false', msg: '修改失败，请重试' };
+  }
 }
