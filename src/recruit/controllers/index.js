@@ -1,3 +1,4 @@
 import { ShowController } from './show.controller';
+import { DeleteController } from './delete.controller';
 
-export default [ShowController];
+export default [ShowController, DeleteController];

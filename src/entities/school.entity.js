@@ -5,6 +5,9 @@ import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
 })
 export class School {
   @PrimaryGeneratedColumn({ type: Number })
+  id;
+
+  @Column({ type: Number })
   Sch_id;
 
   @Column({ type: String }) //一定要定义类型

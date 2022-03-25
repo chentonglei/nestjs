@@ -10,14 +10,13 @@ import { RecruitService } from '../services/recruit.service';
 
 @Controller('recruit')
 @Dependencies(RecruitService)
-export class ShowController {
+export class DeleteController {
   constructor(recruitService) {
     this.recruitService = recruitService;
   }
-  @Post('show') //获取列表
+  @Post('delete') //审核同意/拒绝
   @Bind(Body()) //data为body的数据
-  async getList(data) {
-    const { current, pageSize, ...searchKeys } = data;
-    return await this.recruitService.getList(current, pageSize, searchKeys);
+  async getDelete(data) {
+    return await this.recruitService.getDelete(data.array);
   }
 }

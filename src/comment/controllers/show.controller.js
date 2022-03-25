@@ -6,18 +6,18 @@ import {
   Body,
   Bind,
 } from '@nestjs/common';
-import { RecruitService } from '../services/recruit.service';
+import { CommentService } from '../services/comment.service';
 
-@Controller('recruit')
-@Dependencies(RecruitService)
+@Controller('comment')
+@Dependencies(CommentService)
 export class ShowController {
-  constructor(recruitService) {
-    this.recruitService = recruitService;
+  constructor(commentService) {
+    this.commentService = commentService;
   }
   @Post('show') //获取列表
   @Bind(Body()) //data为body的数据
   async getList(data) {
     const { current, pageSize, ...searchKeys } = data;
-    return await this.recruitService.getList(current, pageSize, searchKeys);
+    return await this.commentService.getList(current, pageSize, searchKeys);
   }
 }

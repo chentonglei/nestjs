@@ -33,4 +33,7 @@ export class Recruit {
 
   @Column({ type: String })
   Rec_send_time;
+
+  @Column({ type: Number })
+  Return_id;
 }

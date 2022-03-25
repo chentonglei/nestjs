@@ -13,7 +13,7 @@ export class RecruitService {
     //获取符合条件的总数 即数据库中数量
     const total = await this.recruit
       .createQueryBuilder()
-      .where(searchKeys.Rec_id ? 'Rec__id LIKE :id' : {})
+      .where(searchKeys.Rec_id ? 'Rec_id LIKE :id' : {})
       .andWhere(searchKeys.Rec_time ? 'Rec_time LIKE :time' : {})
       .andWhere(searchKeys.Rec_where ? 'Rec_where LIKE :where' : {})
       .andWhere(searchKeys.Rec_content ? 'Rec_content LIKE :content' : {})
@@ -42,7 +42,7 @@ export class RecruitService {
       .getCount();
     const message = await this.recruit
       .createQueryBuilder()
-      .where(searchKeys.Rec_id ? 'Rec__id LIKE :id' : {})
+      .where(searchKeys.Rec_id ? 'Rec_id LIKE :id' : {})
       .andWhere(searchKeys.Rec_time ? 'Rec_time LIKE :time' : {})
       .andWhere(searchKeys.Rec_where ? 'Rec_where LIKE :where' : {})
       .andWhere(searchKeys.Rec_content ? 'Rec_content LIKE :content' : {})
@@ -75,5 +75,18 @@ export class RecruitService {
     /* const num = await this.user.update(data.id, data); //更新 */
     /* const num = await this.user.delete(data.id); //删除 */
     return { data: message, success: true, total };
+  }
+  async getDelete(array) {
+    var sum = 0;
+    for (var i = 0; i < array.length; i++) {
+      const num = await this.recruit.delete(array[i]);
+      if (num.affected >= 1) sum += num.affected;
+    }
+    if (sum >= 1)
+      return {
+        result: 'true',
+        msg: `总共${array.length}条，删除成功${sum}条`,
+      };
+    else return { result: 'false', msg: '删除失败，请重试' };
   }
 }

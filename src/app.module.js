@@ -5,6 +5,9 @@ import { IntroductionModule } from './introduction/introduction.module';
 import { LostModule } from './lost/lost.module';
 import { ReturnModule } from './return/return.module';
 import { RecruitModule } from './recruit/recruit.module';
+import { CommentModule } from './comment/comment.module';
+import { SchoolModule } from './school/school.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -22,6 +25,8 @@ import { RecruitModule } from './recruit/recruit.module';
     LostModule,
     ReturnModule,
     RecruitModule,
+    CommentModule,
+    SchoolModule,
   ],
   /*   controllers: [AppController],
   providers: [AppService], */

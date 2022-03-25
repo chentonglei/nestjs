@@ -1,6 +1,5 @@
 import { Injectable, Dependencies } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { SearchSource } from '../../../node_modules/jest/build/jest';
 import { Lost } from '../../entities';
 
 @Injectable()
@@ -85,19 +84,17 @@ export class LostService {
     /* const num = await this.user.delete(data.id); //删除 */
     return { data: message, success: true, total };
   }
-  async getAdd(data) {
-    const num = await this.introduction.insert(data); //添加
-    if (num.raw.affectedRows >= 1) return { result: 'true', msg: '添加成功' };
-    else return { result: 'false', msg: '添加失败，请重试' };
-  }
-  async getDelete(data) {
-    const num = await this.introduction.delete(data.Intr_id); //添加
-    if (num.affected >= 1) return { result: 'true', msg: '删除成功' };
+  async getDelete(array) {
+    var sum = 0;
+    for (var i = 0; i < array.length; i++) {
+      const num = await this.lost.delete(array[i]);
+      if (num.affected >= 1) sum += num.affected;
+    }
+    if (sum >= 1)
+      return {
+        result: 'true',
+        msg: `总共${array.length}条，删除成功${sum}条`,
+      };
     else return { result: 'false', msg: '删除失败，请重试' };
-  }
-  async getUpdate(data) {
-    const num = await this.introduction.update(data.Intr_id, data); //添加
-    if (num.affected >= 1) return { result: 'true', msg: '修改成功' };
-    else return { result: 'false', msg: '修改失败，请重试' };
   }
 }
