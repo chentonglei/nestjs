@@ -7,6 +7,7 @@ import { ReturnModule } from './return/return.module';
 import { RecruitModule } from './recruit/recruit.module';
 import { CommentModule } from './comment/comment.module';
 import { SchoolModule } from './school/school.module';
+import { ChartModule } from './chart/chart.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { SchoolModule } from './school/school.module';
     RecruitModule,
     CommentModule,
     SchoolModule,
+    ChartModule,
   ],
   /*   controllers: [AppController],
   providers: [AppService], */
