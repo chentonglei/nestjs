@@ -1,13 +1,21 @@
 import { Injectable, Dependencies } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Lost } from '../../entities';
+import { Lost, Recruit, Return, Comment } from '../../entities';
 import moment from 'moment';
 
 @Injectable()
-@Dependencies(getRepositoryToken(Lost))
+@Dependencies(
+  getRepositoryToken(Lost),
+  getRepositoryToken(Recruit),
+  getRepositoryToken(Return),
+  getRepositoryToken(Comment),
+)
 export class ChartService {
-  constructor(lost) {
+  constructor(lost, recruit, returnmessage, comment) {
     this.lost = lost;
+    this.recruit = recruit;
+    this.returnmessage = returnmessage;
+    this.comment = comment;
   }
   async getLost(data) {
     // Suppress the warnings
@@ -26,15 +34,387 @@ export class ChartService {
           end: LastTime,
         })
         .getMany();
-      var days = new Array(24);
-      for (var i = 0; i < days.length; i++) {
-        days[i] = 0;
+      var x = new Array(24);
+      var y = new Array(24);
+      for (var i = 0; i < 24; i++) {
+        x[i] = i;
+        y[i] = 0;
       }
       for (var j = 0; j < message.length; j++) {
         let time = moment(message[j].Lost_send_time).format('H');
-        days[time] += 1;
+        y[time] += 1;
       }
-      return days;
+      return { point: x, num: y };
+    }
+    if (data.value === '近30天') {
+      var StartTime = moment()
+        .subtract(29, 'days')
+        .format('YYYY-M-D 00:00'); //近一天的起时间
+      var LastTime = moment() //近一天的末时间
+        .add(1, 'days')
+        .format('YYYY-M-D 00:00');
+      const message = await this.lost
+        .createQueryBuilder()
+        .where('Lost_send_time BETWEEN :start AND :end')
+        .setParameters({
+          start: StartTime,
+          end: LastTime,
+        })
+        .getMany();
+      var x = new Array(30);
+      var y = new Array(30);
+      var flag = {}; //时间对应的下标
+      var start = moment(StartTime).format('M-D');
+      for (var i = 0; i < 30; i++) {
+        x[i] = start;
+        y[i] = 0;
+        let key = start;
+        let value = i;
+        flag[key] = value; //添加属性
+        start = moment(start)
+          .add(1, 'days')
+          .format('M-D');
+      }
+      for (var j = 0; j < message.length; j++) {
+        let time = moment(message[j].Lost_send_time).format('M-D');
+        y[flag[time]] += 1; //利用时间获得数组下标并添加
+      }
+      return { point: x, num: y };
+    }
+    if (data.value === '近一年') {
+      var StartTime = moment()
+        .subtract(11, 'months')
+        .format('YYYY-M-1 00:00'); //近一天的起时间
+      var LastTime = moment() //近一天的末时间
+        .add(1, 'months')
+        .format('YYYY-M-1 00:00');
+      const message = await this.lost
+        .createQueryBuilder()
+        .where('Lost_send_time BETWEEN :start AND :end')
+        .setParameters({
+          start: StartTime,
+          end: LastTime,
+        })
+        .getMany();
+      var x = new Array(12);
+      var y = new Array(12);
+      var flag = {}; //时间对应的下标
+      var start = moment(StartTime).format('YYYY-M');
+      for (var i = 0; i < 12; i++) {
+        x[i] = start;
+        y[i] = 0;
+        let key = start;
+        let value = i;
+        flag[key] = value; //添加属性
+        start = moment(start)
+          .add(1, 'months')
+          .format('YYYY-M');
+      }
+      for (var j = 0; j < message.length; j++) {
+        let time = moment(message[j].Lost_send_time).format('YYYY-M');
+        y[flag[time]] += 1; //利用时间获得数组下标并添加
+      }
+      return { point: x, num: y };
+    }
+  }
+  async getComment(data) {
+    // Suppress the warnings
+    const moment = require('moment');
+    moment.suppressDeprecationWarnings = true;
+    if (data.value === '今天') {
+      var StartTime = moment().format('YYYY-M-D 00:00'); //近一天的起时间
+      var LastTime = moment() //近一天的末时间
+        .add(1, 'days')
+        .format('YYYY-M-D 00:00');
+      const message = await this.comment
+        .createQueryBuilder()
+        .where('Com_do_time BETWEEN :start AND :end')
+        .setParameters({
+          start: StartTime,
+          end: LastTime,
+        })
+        .getMany();
+      var x = new Array(24);
+      var y = new Array(24);
+      for (var i = 0; i < 24; i++) {
+        x[i] = i;
+        y[i] = 0;
+      }
+      for (var j = 0; j < message.length; j++) {
+        let time = moment(message[j].Com_do_time).format('H');
+        y[time] += 1;
+      }
+      return { point: x, num: y };
+    }
+    if (data.value === '近30天') {
+      var StartTime = moment()
+        .subtract(29, 'days')
+        .format('YYYY-M-D 00:00'); //近一天的起时间
+      var LastTime = moment() //近一天的末时间
+        .add(1, 'days')
+        .format('YYYY-M-D 00:00');
+      const message = await this.comment
+        .createQueryBuilder()
+        .where('Com_do_time BETWEEN :start AND :end')
+        .setParameters({
+          start: StartTime,
+          end: LastTime,
+        })
+        .getMany();
+      var x = new Array(30);
+      var y = new Array(30);
+      var flag = {}; //时间对应的下标
+      var start = moment(StartTime).format('M-D');
+      for (var i = 0; i < 30; i++) {
+        x[i] = start;
+        y[i] = 0;
+        let key = start;
+        let value = i;
+        flag[key] = value; //添加属性
+        start = moment(start)
+          .add(1, 'days')
+          .format('M-D');
+      }
+      for (var j = 0; j < message.length; j++) {
+        let time = moment(message[j].Com_do_time).format('M-D');
+        y[flag[time]] += 1; //利用时间获得数组下标并添加
+      }
+      return { point: x, num: y };
+    }
+    if (data.value === '近一年') {
+      var StartTime = moment()
+        .subtract(11, 'months')
+        .format('YYYY-M-1 00:00'); //近一天的起时间
+      var LastTime = moment() //近一天的末时间
+        .add(1, 'months')
+        .format('YYYY-M-1 00:00');
+      const message = await this.comment
+        .createQueryBuilder()
+        .where('Com_do_time BETWEEN :start AND :end')
+        .setParameters({
+          start: StartTime,
+          end: LastTime,
+        })
+        .getMany();
+      var x = new Array(12);
+      var y = new Array(12);
+      var flag = {}; //时间对应的下标
+      var start = moment(StartTime).format('YYYY-M');
+      for (var i = 0; i < 12; i++) {
+        x[i] = start;
+        y[i] = 0;
+        let key = start;
+        let value = i;
+        flag[key] = value; //添加属性
+        start = moment(start)
+          .add(1, 'months')
+          .format('YYYY-M');
+      }
+      for (var j = 0; j < message.length; j++) {
+        let time = moment(message[j].Com_do_time).format('YYYY-M');
+        y[flag[time]] += 1; //利用时间获得数组下标并添加
+      }
+      return { point: x, num: y };
+    }
+  }
+  async getReturn(data) {
+    // Suppress the warnings
+    const moment = require('moment');
+    moment.suppressDeprecationWarnings = true;
+    if (data.value === '今天') {
+      var StartTime = moment().format('YYYY-M-D 00:00'); //近一天的起时间
+      var LastTime = moment() //近一天的末时间
+        .add(1, 'days')
+        .format('YYYY-M-D 00:00');
+      const message = await this.returnmessage
+        .createQueryBuilder()
+        .where('Return_time BETWEEN :start AND :end')
+        .setParameters({
+          start: StartTime,
+          end: LastTime,
+        })
+        .getMany();
+      var x = new Array(24);
+      var y = new Array(24);
+      for (var i = 0; i < 24; i++) {
+        x[i] = i;
+        y[i] = 0;
+      }
+      for (var j = 0; j < message.length; j++) {
+        let time = moment(message[j].Return_time).format('H');
+        y[time] += 1;
+      }
+      return { point: x, num: y };
+    }
+    if (data.value === '近30天') {
+      var StartTime = moment()
+        .subtract(29, 'days')
+        .format('YYYY-M-D 00:00'); //近一天的起时间
+      var LastTime = moment() //近一天的末时间
+        .add(1, 'days')
+        .format('YYYY-M-D 00:00');
+      const message = await this.returnmessage
+        .createQueryBuilder()
+        .where('Return_time BETWEEN :start AND :end')
+        .setParameters({
+          start: StartTime,
+          end: LastTime,
+        })
+        .getMany();
+      var x = new Array(30);
+      var y = new Array(30);
+      var flag = {}; //时间对应的下标
+      var start = moment(StartTime).format('M-D');
+      for (var i = 0; i < 30; i++) {
+        x[i] = start;
+        y[i] = 0;
+        let key = start;
+        let value = i;
+        flag[key] = value; //添加属性
+        start = moment(start)
+          .add(1, 'days')
+          .format('M-D');
+      }
+      for (var j = 0; j < message.length; j++) {
+        let time = moment(message[j].Return_time).format('M-D');
+        y[flag[time]] += 1; //利用时间获得数组下标并添加
+      }
+      return { point: x, num: y };
+    }
+    if (data.value === '近一年') {
+      var StartTime = moment()
+        .subtract(11, 'months')
+        .format('YYYY-M-1 00:00'); //近一天的起时间
+      var LastTime = moment() //近一天的末时间
+        .add(1, 'months')
+        .format('YYYY-M-1 00:00');
+      const message = await this.returnmessage
+        .createQueryBuilder()
+        .where('Return_time BETWEEN :start AND :end')
+        .setParameters({
+          start: StartTime,
+          end: LastTime,
+        })
+        .getMany();
+      var x = new Array(12);
+      var y = new Array(12);
+      var flag = {}; //时间对应的下标
+      var start = moment(StartTime).format('YYYY-M');
+      for (var i = 0; i < 12; i++) {
+        x[i] = start;
+        y[i] = 0;
+        let key = start;
+        let value = i;
+        flag[key] = value; //添加属性
+        start = moment(start)
+          .add(1, 'months')
+          .format('YYYY-M');
+      }
+      for (var j = 0; j < message.length; j++) {
+        let time = moment(message[j].Return_time).format('YYYY-M');
+        y[flag[time]] += 1; //利用时间获得数组下标并添加
+      }
+      return { point: x, num: y };
+    }
+  }
+  async getRecruit(data) {
+    // Suppress the warnings
+    const moment = require('moment');
+    moment.suppressDeprecationWarnings = true;
+    if (data.value === '今天') {
+      var StartTime = moment().format('YYYY-M-D 00:00'); //近一天的起时间
+      var LastTime = moment() //近一天的末时间
+        .add(1, 'days')
+        .format('YYYY-M-D 00:00');
+      const message = await this.recruit
+        .createQueryBuilder()
+        .where('Rec_send_time BETWEEN :start AND :end')
+        .setParameters({
+          start: StartTime,
+          end: LastTime,
+        })
+        .getMany();
+      var x = new Array(24);
+      var y = new Array(24);
+      for (var i = 0; i < 24; i++) {
+        x[i] = i;
+        y[i] = 0;
+      }
+      for (var j = 0; j < message.length; j++) {
+        let time = moment(message[j].Rec_send_time).format('H');
+        y[time] += 1;
+      }
+      return { point: x, num: y };
+    }
+    if (data.value === '近30天') {
+      var StartTime = moment()
+        .subtract(29, 'days')
+        .format('YYYY-M-D 00:00'); //近一天的起时间
+      var LastTime = moment() //近一天的末时间
+        .add(1, 'days')
+        .format('YYYY-M-D 00:00');
+      const message = await this.recruit
+        .createQueryBuilder()
+        .where('Rec_send_time BETWEEN :start AND :end')
+        .setParameters({
+          start: StartTime,
+          end: LastTime,
+        })
+        .getMany();
+      var x = new Array(30);
+      var y = new Array(30);
+      var flag = {}; //时间对应的下标
+      var start = moment(StartTime).format('M-D');
+      for (var i = 0; i < 30; i++) {
+        x[i] = start;
+        y[i] = 0;
+        let key = start;
+        let value = i;
+        flag[key] = value; //添加属性
+        start = moment(start)
+          .add(1, 'days')
+          .format('M-D');
+      }
+      for (var j = 0; j < message.length; j++) {
+        let time = moment(message[j].Rec_send_time).format('M-D');
+        y[flag[time]] += 1; //利用时间获得数组下标并添加
+      }
+      return { point: x, num: y };
+    }
+    if (data.value === '近一年') {
+      var StartTime = moment()
+        .subtract(11, 'months')
+        .format('YYYY-M-1 00:00'); //近一天的起时间
+      var LastTime = moment() //近一天的末时间
+        .add(1, 'months')
+        .format('YYYY-M-1 00:00');
+      const message = await this.recruit
+        .createQueryBuilder()
+        .where('Rec_send_time BETWEEN :start AND :end')
+        .setParameters({
+          start: StartTime,
+          end: LastTime,
+        })
+        .getMany();
+      var x = new Array(12);
+      var y = new Array(12);
+      var flag = {}; //时间对应的下标
+      var start = moment(StartTime).format('YYYY-M');
+      for (var i = 0; i < 12; i++) {
+        x[i] = start;
+        y[i] = 0;
+        let key = start;
+        let value = i;
+        flag[key] = value; //添加属性
+        start = moment(start)
+          .add(1, 'months')
+          .format('YYYY-M');
+      }
+      for (var j = 0; j < message.length; j++) {
+        let time = moment(message[j].Rec_send_time).format('YYYY-M');
+        y[flag[time]] += 1; //利用时间获得数组下标并添加
+      }
+      return { point: x, num: y };
     }
   }
 }
