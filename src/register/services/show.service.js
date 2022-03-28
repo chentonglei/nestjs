@@ -63,14 +63,20 @@ export class ShowService {
     return { data: message, success: true, total };
   }
   async getUpdate(data) {
-    const num = await this.register.update(data.Re_id, data);
+    const num = await this.register.update(
+      { Re_id: data.Re_id, Re_power: data.Re_power },
+      data,
+    );
     if (num.affected >= 1) return { result: 'true', msg: '修改成功' };
     else return { result: 'false', msg: '修改失败，请重试' };
   }
   async getPassword(data) {
-    const num = await this.register.update(data.Re_id, {
-      Re_password: '123456',
-    });
+    const num = await this.register.update(
+      { Re_id: data.Re_id, Re_power: data.Re_power },
+      {
+        Re_password: '123456',
+      },
+    );
     if (num.affected >= 1) return { result: 'true', msg: '初始化成功' };
     else return { result: 'false', msg: '初始化失败，请重试' };
   }

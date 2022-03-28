@@ -1,5 +1,6 @@
 import { ShowService } from './show.service';
+import { AdminLoginService } from './admin-login.service';
 
-export { ShowService };
+export { ShowService, AdminLoginService };
 
-export default [ShowService];
+export default [ShowService, AdminLoginService];
