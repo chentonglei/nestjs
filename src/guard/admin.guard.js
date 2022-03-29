@@ -7,11 +7,11 @@ export class AdminGuard {
   async canActivate(context) {
     const request = context.switchToHttp().getRequest();
     // 读取token
-    const authorization = request.header('authorization');
+    const token = request.header('token');
     // 当用户没有token，说明用户没有登录。
-    if (!authorization) {
+    if (!token) {
       return false;
     }
-    return this.AdminLoginService.validateToken(authorization.slice(7));
+    return this.AdminLoginService.validateToken(token);
   }
 }

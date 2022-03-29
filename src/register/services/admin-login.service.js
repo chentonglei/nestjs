@@ -13,7 +13,6 @@ export class AdminLoginService {
     this.jwtService = jwtService;
   }
   async login(data) {
-    console.log(data);
     const admin = await this.register.findOne({
       Re_id: data.Re_id,
       Re_password: data.Re_password,
@@ -43,19 +42,45 @@ export class AdminLoginService {
   // req的token转管理员
   async tokenToAdmin(req) {
     const token = req.header('token');
-    console.log(token);
     const decodeAdminInfo = this.jwtService.decode(token);
     if (typeof decodeAdminInfo == 'object') {
-      const { password, ...admin } = await this.register.findOne({
+      const data = await this.register.findOne({
         Re_id: decodeAdminInfo.Re_id,
         Re_power: decodeAdminInfo.Re_power,
       });
-      return admin;
+      return { data };
     } else {
       throw new HttpException(
         `登陆状态失效，token解析失败，解析结果不为对象。`,
         401,
       );
     }
+  }
+  async pwd(data) {
+    const admin = await this.register.findOne({
+      Re_id: data.Re_id,
+      Re_power: data.Re_power,
+    });
+    if (admin.Re_password === data.Re_old_password) {
+      const num = await this.register.update(
+        { Re_id: data.Re_id, Re_power: data.Re_power },
+        {
+          Re_password: data.Re_password,
+        },
+      );
+      if (num.affected >= 1) return { result: 'true', msg: '修改成功' };
+      else return { result: 'false', msg: '修改化失败，请重试' };
+    } else return { result: 'false', msg: '旧密码错误' };
+  }
+  async add(data) {
+    const num = await this.register.insert({
+      Re_id: data.Re_id,
+      Re_password: data.Re_password,
+      Re_name: data.Re_name,
+      Re_power: 'admin',
+      Re_status: 'admin',
+    });
+    if (num.raw.affectedRows >= 1) return { result: 'true', msg: '添加成功' };
+    else return { result: 'false', msg: '添加失败，请重试' };
   }
 }
