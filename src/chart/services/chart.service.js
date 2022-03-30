@@ -1,6 +1,13 @@
 import { Injectable, Dependencies } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Lost, Recruit, Return, Comment } from '../../entities';
+import {
+  Lost,
+  Recruit,
+  Return,
+  Comment,
+  Register,
+  School,
+} from '../../entities';
 import moment from 'moment';
 
 @Injectable()
@@ -9,13 +16,17 @@ import moment from 'moment';
   getRepositoryToken(Recruit),
   getRepositoryToken(Return),
   getRepositoryToken(Comment),
+  getRepositoryToken(Register),
+  getRepositoryToken(School),
 )
 export class ChartService {
-  constructor(lost, recruit, returnmessage, comment) {
+  constructor(lost, recruit, returnmessage, comment, register, school) {
     this.lost = lost;
     this.recruit = recruit;
     this.returnmessage = returnmessage;
     this.comment = comment;
+    this.register = register;
+    this.school = school;
   }
   async getLost(data) {
     // Suppress the warnings
@@ -416,5 +427,35 @@ export class ChartService {
       }
       return { point: x, num: y };
     }
+  }
+  async getUser() {
+    var boy = 0;
+    var girl = 0;
+    const num = await this.register.find({ Re_power: 'user' });
+    for (var i = 0; i < num.length; i++) {
+      if (num[i].Re_sex === '男') boy += 1;
+      else girl += 1;
+    }
+    return { boy, girl };
+  }
+  async getSchool() {
+    const body = [];
+    var flag = {}; //学校对应的下标
+    const num = await this.school.find({ Sch_status: '审核通过' });
+    for (var i = 0; i < num.length; i++) {
+      const temp = { value: 0, name: num[i].Sch_name };
+      body.push(temp);
+      let key = num[i].Sch_name;
+      let value = i;
+      flag[key] = value; //添加属性
+    }
+    body.push({ value: 0, name: '未认证' });
+    flag['未认证'] = i;
+    const user = await this.register.find({ Re_power: 'user' });
+    for (var j = 0; j < user.length; j++) {
+      if (user[j].Re_school_name) body[flag[user[j].Re_school_name]].value += 1;
+      else body[i].value += 1;
+    }
+    return body;
   }
 }
