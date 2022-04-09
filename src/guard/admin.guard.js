@@ -1,9 +1,17 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  Dependencies,
+} from '@nestjs/common';
 import { AdminLoginService } from '../register/services/admin-login.service';
 
 @Injectable()
+@Dependencies(AdminLoginService)
 export class AdminGuard {
+  constructor(adminLoginService) {
+    this.adminLoginService = adminLoginService;
+  }
   async canActivate(context) {
     const request = context.switchToHttp().getRequest();
     // 读取token
@@ -12,6 +20,6 @@ export class AdminGuard {
     if (!token) {
       return false;
     }
-    return this.AdminLoginService.validateToken(token);
+    return this.adminLoginService.validateToken(token);
   }
 }

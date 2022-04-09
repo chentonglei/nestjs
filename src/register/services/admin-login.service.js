@@ -30,6 +30,7 @@ export class AdminLoginService {
     const token = this.jwtService.sign(payload);
     return { token };
   }
+
   async validateToken(token) {
     try {
       this.jwtService.verify(token);
@@ -82,5 +83,14 @@ export class AdminLoginService {
     });
     if (num.raw.affectedRows >= 1) return { result: 'true', msg: '添加成功' };
     else return { result: 'false', msg: '添加失败，请重试' };
+  }
+  async userlogin(data) {
+    const user = await this.register.findOne({
+      Re_id: data.Re_id,
+      Re_password: data.Re_password,
+      Re_power: data.Re_power,
+    });
+    if (user) return { status: '登录成功', user };
+    else return { status: '登录失败' };
   }
 }

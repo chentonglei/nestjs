@@ -5,9 +5,9 @@ import {
   Post,
   Body,
   Bind,
+  UseGuards,
 } from '@nestjs/common';
 import { ChartService } from '../services/chart.service';
-
 @Controller('chart')
 @Dependencies(ChartService)
 export class LostController {

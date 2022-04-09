@@ -4,7 +4,6 @@ import ShowService from './services';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import entities from '../entities';
-
 @Module({
   imports: [
     JwtModule.register({

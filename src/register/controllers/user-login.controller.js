@@ -5,21 +5,18 @@ import {
   Post,
   Body,
   Bind,
-  Request,
-  UseGuards,
 } from '@nestjs/common';
 import { AdminLoginService } from '../services/admin-login.service';
 
 @Controller('register')
 @Dependencies(AdminLoginService)
-export class AdminInfoController {
+export class UserLoginController {
   constructor(adminLoginService) {
     this.adminLoginService = adminLoginService;
   }
-  @Post('getAdminInfo') //初始化密码
-  @Bind(Request()) //获取request
-  async getInfo(req) {
-    /* console.log(req); */
-    return await this.adminLoginService.tokenToAdmin(req);
+  @Post('UserLogin') //初始化密码
+  @Bind(Body()) //data为body的数据
+  async getList(data) {
+    return await this.adminLoginService.userlogin(data);
   }
 }
