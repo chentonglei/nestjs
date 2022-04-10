@@ -57,4 +57,8 @@ export class IntroductionService {
     if (num.affected >= 1) return { result: 'true', msg: '修改成功' };
     else return { result: 'false', msg: '修改失败，请重试' };
   }
+  async getUserList() {
+    const message = await this.introduction.find();
+    return { data: message, success: true };
+  }
 }

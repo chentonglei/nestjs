@@ -93,4 +93,16 @@ export class AdminLoginService {
     if (user) return { status: '登录成功', user };
     else return { status: '登录失败' };
   }
+  async useradd(data) {
+    const num = await this.register.insert({
+      Re_id: data.Re_id,
+      Re_password: data.Re_password,
+      Re_name: data.Re_name,
+      Re_telephone: data.Re_telephone,
+      Re_power: 'user',
+      Re_status: '未提交认证信息',
+    });
+    if (num.raw.affectedRows >= 1) return { result: 'true', msg: '注册成功' };
+    else return { result: 'false', msg: '账号重复' };
+  }
 }
