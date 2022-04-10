@@ -96,4 +96,8 @@ export class SchoolService {
     if (num.affected >= 1) return { result: 'true', msg: '删除成功' };
     else return { result: 'false', msg: '删除失败，请重试' };
   }
+  async getUserList() {
+    const message = await this.school.find({ Sch_status: '审核通过' });
+    return { data: message };
+  }
 }

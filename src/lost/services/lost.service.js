@@ -97,4 +97,8 @@ export class LostService {
       };
     else return { result: 'false', msg: '删除失败，请重试' };
   }
+  async getUserList() {
+    const message = await this.lost.find({ Lost_status: '未找到' });
+    return { data: message };
+  }
 }

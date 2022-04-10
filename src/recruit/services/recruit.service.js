@@ -89,4 +89,8 @@ export class RecruitService {
       };
     else return { result: 'false', msg: '删除失败，请重试' };
   }
+  async getUserList() {
+    const message = await this.recruit.find({ Rec_status: '未归还' });
+    return { data: message };
+  }
 }
