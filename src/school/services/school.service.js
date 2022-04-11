@@ -1,5 +1,6 @@
 import { Injectable, Dependencies } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import moment from 'moment';
 import { School } from '../../entities';
 
 @Injectable()
@@ -99,5 +100,12 @@ export class SchoolService {
   async getUserList() {
     const message = await this.school.find({ Sch_status: '审核通过' });
     return { data: message };
+  }
+  async getAdd(data) {
+    data.Sch_time = moment().format('YYYY-MM-DD HH:mm');
+    data.Sch_status = '审核中';
+    const num = await this.school.insert(data);
+    if (num.raw.affectedRows >= 1) return { result: 'true', msg: '添加成功' };
+    else return { result: 'false', msg: '添加失败，请重试' };
   }
 }

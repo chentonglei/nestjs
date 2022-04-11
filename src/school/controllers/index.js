@@ -1,4 +1,10 @@
 import { ShowController } from './show.controller';
 import { DoitController } from './doit.controller';
 import { UserShowController } from './usershow.controller';
-export default [ShowController, DoitController, UserShowController];
+import { AddController } from './add.controller';
+export default [
+  ShowController,
+  DoitController,
+  UserShowController,
+  AddController,
+];

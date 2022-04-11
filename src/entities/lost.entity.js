@@ -36,4 +36,10 @@ export class Lost {
 
   @Column({ type: Number })
   Return_id;
+
+  @Column({ type: String })
+  Sch_name;
+
+  @Column({ type: Number })
+  Sch_id;
 }
