@@ -10,6 +10,7 @@ import { AdminPwdController } from './admin-pwd.controller';
 import { AdminAddController } from './admin-add.controller';
 import { UserLoginController } from './user-login.controller';
 import { UserAddController } from './user-add.controller';
+import { UserInfoController } from './user-info.controller';
 export default [
   ShowController,
   UpdateController,
@@ -23,4 +24,5 @@ export default [
   AdminAddController,
   UserLoginController,
   UserAddController,
+  UserInfoController,
 ];

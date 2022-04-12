@@ -93,6 +93,14 @@ export class AdminLoginService {
     if (user) return { status: '登录成功', user };
     else return { status: '登录失败' };
   }
+  async userInfo(data) {
+    const user = await this.register.findOne({
+      Re_id: data.Re_id,
+      Re_power: data.Re_power,
+    });
+    if (user) return { result: 'true', user };
+    else return { result: 'false' };
+  }
   async useradd(data) {
     const num = await this.register.insert({
       Re_id: data.Re_id,
