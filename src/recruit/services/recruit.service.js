@@ -1,7 +1,7 @@
 import { Injectable, Dependencies } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Recruit } from '../../entities';
-
+import moment from 'moment';
 @Injectable()
 @Dependencies(getRepositoryToken(Recruit))
 export class RecruitService {
@@ -89,8 +89,23 @@ export class RecruitService {
       };
     else return { result: 'false', msg: '删除失败，请重试' };
   }
-  async getUserList() {
-    const message = await this.recruit.find({ Rec_status: '未归还' });
+  async getUserList(data) {
+    var message;
+    if (data.Sch_name === '全部学校')
+      message = await this.recruit.find({ Rec_status: '未归还' });
+    else
+      message = await this.recruit.find({
+        Rec_status: '未归还',
+        Sch_name: data.Sch_name,
+      });
     return { data: message };
+  }
+  async getSend(data) {
+    const num = await this.recruit.insert({
+      ...data,
+      Rec_send_time: moment().format('YYYY-MM-DD HH:mm'),
+    });
+    if (num.raw.affectedRows >= 1) return { result: 'true', msg: '添加成功' };
+    else return { result: 'false', msg: '添加失败，请重试' };
   }
 }

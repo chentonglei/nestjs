@@ -10,13 +10,13 @@ import { RecruitService } from '../services/recruit.service';
 
 @Controller('recruit')
 @Dependencies(RecruitService)
-export class UserShowController {
+export class SendController {
   constructor(recruitService) {
     this.recruitService = recruitService;
   }
-  @Post('UserShow') //获取列表
+  @Post('send') //审核同意/拒绝
   @Bind(Body()) //data为body的数据
-  async getList(data) {
-    return await this.recruitService.getUserList(data);
+  async getSend(data) {
+    return await this.recruitService.getSend(data);
   }
 }

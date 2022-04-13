@@ -10,13 +10,13 @@ import { LostService } from '../services/lost.service';
 
 @Controller('lost')
 @Dependencies(LostService)
-export class UserShowController {
+export class SendController {
   constructor(lostService) {
     this.lostService = lostService;
   }
-  @Post('UserShow') //获取列表
+  @Post('send') //审核同意/拒绝
   @Bind(Body()) //data为body的数据
-  async getList(data) {
-    return await this.lostService.getUserList(data);
+  async getSend(data) {
+    return await this.lostService.getSend(data);
   }
 }
