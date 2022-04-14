@@ -108,4 +108,8 @@ export class RecruitService {
     if (num.raw.affectedRows >= 1) return { result: 'true', msg: '添加成功' };
     else return { result: 'false', msg: '添加失败，请重试' };
   }
+  async getInfo(data) {
+    const message = await this.recruit.findOne({ Rec_id: data.Rec_id });
+    return { data: message };
+  }
 }

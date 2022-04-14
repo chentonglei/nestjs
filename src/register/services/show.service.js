@@ -118,4 +118,24 @@ export class ShowService {
       };
     else return { result: 'false', msg: '删除失败，请重试' };
   }
+  async getchangepwd(data) {
+    const user = await this.register.findOne({
+      Re_id: data.Re_id,
+      Re_power: 'user',
+    });
+    if (user.Re_password !== data.old_password)
+      return { message: '旧密码错误', result: 'false' };
+    if (user.Re_password === data.Re_password)
+      return { result: 'false', message: '新旧密码一致' };
+    if (user.Re_password === data.old_password) {
+      const num = await this.register.update(
+        { Re_id: data.Re_id, Re_power: 'user' },
+        {
+          Re_password: data.Re_password,
+        },
+      ); //添加
+      if (num.affected >= 1) return { result: 'true', message: '修改成功' };
+      else return { result: 'false', message: '修改失败' };
+    }
+  }
 }

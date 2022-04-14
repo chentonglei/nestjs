@@ -11,6 +11,7 @@ import { AdminAddController } from './admin-add.controller';
 import { UserLoginController } from './user-login.controller';
 import { UserAddController } from './user-add.controller';
 import { UserInfoController } from './user-info.controller';
+import { UserPasswordController } from './userpassword.controller';
 export default [
   ShowController,
   UpdateController,
@@ -25,4 +26,5 @@ export default [
   UserLoginController,
   UserAddController,
   UserInfoController,
+  UserPasswordController,
 ];
