@@ -1,12 +1,18 @@
 import { Injectable, Dependencies } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Lost } from '../../entities';
+import { Lost, Comment, Return } from '../../entities';
 import moment from 'moment';
 @Injectable()
-@Dependencies(getRepositoryToken(Lost))
+@Dependencies(
+  getRepositoryToken(Lost),
+  getRepositoryToken(Comment),
+  getRepositoryToken(Return),
+)
 export class LostService {
-  constructor(lost) {
+  constructor(lost, comment, returnmessage) {
     this.lost = lost;
+    this.comment = comment;
+    this.returnmessage = returnmessage;
   }
   async getList(current, pageSize, searchKeys) {
     //获取列表信息
@@ -88,12 +94,17 @@ export class LostService {
     var sum = 0;
     for (var i = 0; i < array.length; i++) {
       const num = await this.lost.delete(array[i]);
+      await this.comment.delete({ Com_type_id: array[i], Com_type: '失物' });
+      await this.returnmessage.delete({
+        Return_message_id: array[i],
+        Return_type: '失物',
+      });
       if (num.affected >= 1) sum += num.affected;
     }
     if (sum >= 1)
       return {
         result: 'true',
-        msg: `总共${array.length}条，删除成功${sum}条`,
+        msg: `删除成功`,
       };
     else return { result: 'false', msg: '删除失败，请重试' };
   }
@@ -119,5 +130,19 @@ export class LostService {
   async getInfo(data) {
     const message = await this.lost.findOne({ Lost_id: data.Lost_id });
     return { data: message };
+  }
+  async get(data) {
+    const message = await this.returnmessage.insert({
+      ...data,
+      Return_type: '失物',
+      Return_time: moment().format('YYYY-MM-DD HH:mm'),
+    });
+    const Return_id = message.identifiers[0].Return_id;
+    const num = await this.lost.update(data.Return_message_id, {
+      Return_id,
+      Lost_status: '已找到',
+    }); //添加
+    if (num.affected >= 1) return { result: 'true', msg: '修改成功' };
+    else return { result: 'false', msg: '修改失败，请重试' };
   }
 }

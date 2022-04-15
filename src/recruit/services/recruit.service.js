@@ -1,12 +1,18 @@
 import { Injectable, Dependencies } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Recruit } from '../../entities';
+import { Recruit, Comment, Return } from '../../entities';
 import moment from 'moment';
 @Injectable()
-@Dependencies(getRepositoryToken(Recruit))
+@Dependencies(
+  getRepositoryToken(Recruit),
+  getRepositoryToken(Comment),
+  getRepositoryToken(Return),
+)
 export class RecruitService {
-  constructor(recruit) {
+  constructor(recruit, comment, returnmessage) {
     this.recruit = recruit;
+    this.comment = comment;
+    this.returnmessage = returnmessage;
   }
   async getList(current, pageSize, searchKeys) {
     //获取列表信息
@@ -80,12 +86,17 @@ export class RecruitService {
     var sum = 0;
     for (var i = 0; i < array.length; i++) {
       const num = await this.recruit.delete(array[i]);
+      await this.comment.delete({ Com_type_id: array[i], Com_type: '招领' });
+      await this.returnmessage.delete({
+        Return_message_id: array[i],
+        Return_type: '招领',
+      });
       if (num.affected >= 1) sum += num.affected;
     }
     if (sum >= 1)
       return {
         result: 'true',
-        msg: `总共${array.length}条，删除成功${sum}条`,
+        msg: `删除成功`,
       };
     else return { result: 'false', msg: '删除失败，请重试' };
   }

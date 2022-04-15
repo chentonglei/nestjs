@@ -72,4 +72,18 @@ export class CommentService {
       };
     else return { result: 'false', msg: '删除失败，请重试' };
   }
+  async getComment(data) {
+    var message;
+    if (data.isModalVisible === '失物')
+      message = await this.comment.find({
+        Com_type_id: data.Lost_id,
+        Com_type: data.isModalVisible,
+      });
+    if (data.isModalVisible === '招领')
+      message = await this.comment.find({
+        Com_type_id: data.Rec_id,
+        Com_type: data.isModalVisible,
+      });
+    return { data: message };
+  }
 }
