@@ -123,4 +123,18 @@ export class RecruitService {
     const message = await this.recruit.findOne({ Rec_id: data.Rec_id });
     return { data: message };
   }
+  async get(data) {
+    const message = await this.returnmessage.insert({
+      ...data,
+      Return_type: '招领',
+      Return_time: moment().format('YYYY-MM-DD HH:mm'),
+    });
+    const Return_id = message.identifiers[0].Return_id; //递增的值
+    const num = await this.recruit.update(data.Return_message_id, {
+      Return_id,
+      Rec_status: '已归还',
+    }); //添加
+    if (num.affected >= 1) return { result: 'true', msg: '修改成功' };
+    else return { result: 'false', msg: '修改失败，请重试' };
+  }
 }
