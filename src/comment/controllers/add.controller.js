@@ -10,13 +10,13 @@ import { CommentService } from '../services/comment.service';
 
 @Controller('comment')
 @Dependencies(CommentService)
-export class DeleteController {
+export class AddController {
   constructor(commentService) {
     this.commentService = commentService;
   }
-  @Post('delete') //获取列表
+  @Post('add') //获取列表
   @Bind(Body()) //data为body的数据
-  async getDelete(data) {
-    return await this.commentService.getDelete(data.array);
+  async getAdd(data) {
+    return await this.commentService.getAdd(data);
   }
 }

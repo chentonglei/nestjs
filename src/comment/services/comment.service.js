@@ -2,6 +2,7 @@ import { Injectable, Dependencies } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { SearchSource } from '../../../node_modules/jest/build/jest';
 import { Comment } from '../../entities';
+import moment from 'moment';
 
 @Injectable()
 @Dependencies(getRepositoryToken(Comment))
@@ -68,9 +69,9 @@ export class CommentService {
     if (sum >= 1)
       return {
         result: 'true',
-        msg: `总共${array.length}条，删除成功${sum}条`,
+        msg: `删除成功`,
       };
-    else return { result: 'false', msg: '删除失败，请重试' };
+    else return { result: 'false', msg: '删除失败' };
   }
   async getComment(data) {
     var message;
@@ -85,5 +86,11 @@ export class CommentService {
         Com_type: data.isModalVisible,
       });
     return { data: message };
+  }
+  async getAdd(data) {
+    var Com_do_time = moment().format('YYYY-MM-DD HH:mm');
+    const num = await this.comment.insert({ ...data, Com_do_time }); //添加
+    if (num.raw.affectedRows >= 1) return { result: 'true', msg: '添加成功' };
+    else return { result: 'false', msg: '添加失败，请重试' };
   }
 }
