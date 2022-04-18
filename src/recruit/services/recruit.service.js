@@ -103,11 +103,19 @@ export class RecruitService {
   async getUserList(data) {
     var message;
     if (data.Sch_name === '全部学校')
-      message = await this.recruit.find({ Rec_status: '未归还' });
+      message = await this.recruit.find({
+        where: {
+          Rec_status: '未归还',
+        },
+        order: { Rec_id: 'DESC' },
+      });
     else
       message = await this.recruit.find({
-        Rec_status: '未归还',
-        Sch_name: data.Sch_name,
+        where: {
+          Rec_status: '未归还',
+          Sch_name: data.Sch_name,
+        },
+        order: { Rec_id: 'DESC' },
       });
     return { data: message };
   }
@@ -136,5 +144,14 @@ export class RecruitService {
     }); //添加
     if (num.affected >= 1) return { result: 'true', msg: '修改成功' };
     else return { result: 'false', msg: '修改失败，请重试' };
+  }
+  async getOneList(data) {
+    const message = await this.recruit.find({
+      where: {
+        Rec_people_id: data.Rec_people_id,
+      },
+      order: { Rec_id: 'DESC' },
+    });
+    return { data: message };
   }
 }

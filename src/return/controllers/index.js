@@ -1,3 +1,3 @@
 import { ShowController } from './show.controller';
-
-export default [ShowController];
+import { OneShowController } from './oneshow.controller';
+export default [ShowController, OneShowController];

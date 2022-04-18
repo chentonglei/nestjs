@@ -111,11 +111,19 @@ export class LostService {
   async getUserList(data) {
     var message;
     if (data.Sch_name === '全部学校')
-      message = await this.lost.find({ Lost_status: '未找到' });
+      message = await this.lost.find({
+        where: {
+          Lost_status: '未找到',
+        },
+        order: { Lost_id: 'DESC' },
+      });
     else
       message = await this.lost.find({
-        Lost_status: '未找到',
-        Sch_name: data.Sch_name,
+        where: {
+          Lost_status: '未找到',
+          Sch_name: data.Sch_name,
+        },
+        order: { Lost_id: 'DESC' },
       });
     return { data: message };
   }
@@ -144,5 +152,14 @@ export class LostService {
     }); //添加
     if (num.affected >= 1) return { result: 'true', msg: '修改成功' };
     else return { result: 'false', msg: '修改失败，请重试' };
+  }
+  async getOneList(data) {
+    const message = await this.lost.find({
+      where: {
+        Lost_people_id: data.Lost_people_id,
+      },
+      order: { Lost_id: 'DESC' },
+    });
+    return { data: message };
   }
 }

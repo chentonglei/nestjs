@@ -4,6 +4,7 @@ import { UserShowController } from './usershow.controller';
 import { SendController } from './send.controller';
 import { InfoController } from './info.controller';
 import { GetController } from './get.controller';
+import { OneShowController } from './oneshow.controller';
 export default [
   ShowController,
   DeleteController,
@@ -11,4 +12,5 @@ export default [
   SendController,
   InfoController,
   GetController,
+  OneShowController,
 ];
