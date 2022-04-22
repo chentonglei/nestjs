@@ -93,4 +93,11 @@ export class CommentService {
     if (num.raw.affectedRows >= 1) return { result: 'true', msg: '添加成功' };
     else return { result: 'false', msg: '添加失败，请重试' };
   }
+  async getOneComment(data) {
+    const message = await this.comment.find({
+      where: [{ Com_do_id: data.Re_id }, { Com_be_id: data.Re_id }],
+      order: { Com_id: 'DESC' },
+    });
+    return { data: message };
+  }
 }

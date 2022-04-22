@@ -2,13 +2,14 @@ import { Injectable, Dependencies } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { SearchSource } from '../../../node_modules/jest/build/jest';
 import { Like } from '../../../node_modules/typeorm/index';
-import { Register } from '../../entities';
+import { Register, School } from '../../entities';
 
 @Injectable()
-@Dependencies(getRepositoryToken(Register))
+@Dependencies(getRepositoryToken(Register), getRepositoryToken(School))
 export class ShowService {
-  constructor(register) {
+  constructor(register, school) {
     this.register = register;
+    this.school = school;
   }
   async getList(current, pageSize, searchKeys) {
     //获取列表信息
@@ -137,5 +138,21 @@ export class ShowService {
       if (num.affected >= 1) return { result: 'true', message: '修改成功' };
       else return { result: 'false', message: '修改失败' };
     }
+  }
+  async UserCertification(data) {
+    const schooltemp = await this.school.findOne({
+      Sch_id: data.Re_school_id,
+      Sch_status: '审核通过',
+    });
+    if (schooltemp) {
+      const num = await this.register.update(data.Re_id, {
+        Re_status: '审核中',
+        Re_school_name: schooltemp.Sch_name,
+        Re_school_id: data.Re_school_id,
+        Re_img: data.Re_img,
+      }); //添加
+      if (num.affected >= 1) return { result: 'true', msg: '申请成功' };
+      else return { result: 'false', msg: '申请失败' };
+    } else return { result: 'false', msg: '学校未入住' };
   }
 }

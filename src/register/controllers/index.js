@@ -12,6 +12,7 @@ import { UserLoginController } from './user-login.controller';
 import { UserAddController } from './user-add.controller';
 import { UserInfoController } from './user-info.controller';
 import { UserPasswordController } from './userpassword.controller';
+import { UserCertificationController } from './usercertification.controller';
 export default [
   ShowController,
   UpdateController,
@@ -27,4 +28,5 @@ export default [
   UserAddController,
   UserInfoController,
   UserPasswordController,
+  UserCertificationController,
 ];
