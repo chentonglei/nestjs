@@ -108,7 +108,7 @@ export class AdminLoginService {
       Re_name: data.Re_name,
       Re_telephone: data.Re_telephone,
       Re_power: 'user',
-      Re_status: '未提交认证信息',
+      Re_status: '未提交',
     });
     if (num.raw.affectedRows >= 1) return { result: 'true', msg: '注册成功' };
     else return { result: 'false', msg: '账号重复' };

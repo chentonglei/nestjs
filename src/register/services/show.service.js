@@ -83,7 +83,7 @@ export class ShowService {
   }
   async getCertification(data) {
     const num = await this.register.update(data.Re_id, {
-      Re_status: '未提交认证信息',
+      Re_status: '未提交',
       Re_school_name: '',
       Re_school_id: null,
       Re_img: '',
