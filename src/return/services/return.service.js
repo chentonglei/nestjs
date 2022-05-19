@@ -50,4 +50,19 @@ export class ReturnService {
     }
     return { data };
   }
+  async deleteinfo(data) {
+    const num = await this.returninfo.delete(data.Return_id);
+    if (data.isModalVisible === '失物')
+      var message = await this.lost.update(
+        { Lost_id: data.id },
+        { Return_id: null, Lost_status: '未找到' },
+      );
+    else
+      var message = await this.recruit.update(
+        { Rec_id: data.id },
+        { Return_id: null, Rec_status: '未归还' },
+      );
+    if (num.affected >= 1) return { result: 'true', msg: '删除成功' };
+    else return { result: 'false', msg: '删除失败，请重试' };
+  }
 }

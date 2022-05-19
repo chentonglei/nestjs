@@ -108,4 +108,18 @@ export class SchoolService {
     if (num.raw.affectedRows >= 1) return { result: 'true', msg: '添加成功' };
     else return { result: 'false', msg: '添加失败，请重试' };
   }
+  async search(data) {
+    const message = await this.school
+      .createQueryBuilder()
+      .where('Sch_name LIKE :name')
+      .andWhere({ Sch_status: '审核通过' })
+      .setParameters({
+        name: `%${data.search}%`,
+      })
+      .getMany();
+    /* const num = await this.user.insert(data); //添加 */
+    /* const num = await this.user.update(data.id, data); //更新 */
+    /* const num = await this.user.delete(data.id); //删除 */
+    return { data: message };
+  }
 }
