@@ -17,6 +17,6 @@ export class AdminAddController {
   @Post('AdminAdd') //初始化密码
   @Bind(Body()) //data为body的数据
   async getList(data) {
-    return await this.adminLoginService.add(data);
+    return await this.adminLoginService.adminadd(data);
   }
 }

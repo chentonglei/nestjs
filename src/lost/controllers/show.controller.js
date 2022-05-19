@@ -17,7 +17,12 @@ export class ShowController {
   @Post('show') //获取列表
   @Bind(Body()) //data为body的数据
   async getList(data) {
-    const { current, pageSize, ...searchKeys } = data;
-    return await this.lostService.getList(current, pageSize, searchKeys);
+    const { current, pageSize, school_id, ...searchKeys } = data;
+    return await this.lostService.getList(
+      current,
+      pageSize,
+      school_id,
+      searchKeys,
+    );
   }
 }

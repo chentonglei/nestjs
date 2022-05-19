@@ -73,13 +73,16 @@ export class AdminLoginService {
       else return { result: 'false', msg: '修改化失败，请重试' };
     } else return { result: 'false', msg: '旧密码错误' };
   }
-  async add(data) {
+  async adminadd(data) {
     const num = await this.register.insert({
       Re_id: data.Re_id,
       Re_password: data.Re_password,
       Re_name: data.Re_name,
+      Re_telephone: data.Re_telephone,
       Re_power: 'admin',
       Re_status: 'admin',
+      Re_school_id: data.Re_school_id,
+      Re_school_name: data.Re_school_name,
     });
     if (num.raw.affectedRows >= 1) return { result: 'true', msg: '添加成功' };
     else return { result: 'false', msg: '添加失败，请重试' };

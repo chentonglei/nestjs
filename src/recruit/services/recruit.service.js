@@ -14,7 +14,7 @@ export class RecruitService {
     this.comment = comment;
     this.returnmessage = returnmessage;
   }
-  async getList(current, pageSize, searchKeys) {
+  async getList(current, pageSize, school_id, searchKeys) {
     //获取列表信息
     //获取符合条件的总数 即数据库中数量
     const total = await this.recruit
@@ -34,6 +34,7 @@ export class RecruitService {
           ? 'Rec_people_phone LIKE :people_phone'
           : {},
       )
+      .andWhere(school_id ? { Sch_id: school_id } : {})
       .setParameters({
         id: `%${searchKeys.Rec_id}%`,
         time: `%${searchKeys.Rec_time}%`,
@@ -63,6 +64,7 @@ export class RecruitService {
           ? 'Rec_people_phone LIKE :people_phone'
           : {},
       )
+      .andWhere(school_id ? { Sch_id: school_id } : {})
       .setParameters({
         id: `%${searchKeys.Rec_id}%`,
         time: `%${searchKeys.Rec_time}%`,
