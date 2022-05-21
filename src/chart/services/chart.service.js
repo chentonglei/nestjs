@@ -33,10 +33,10 @@ export class ChartService {
     const moment = require('moment');
     moment.suppressDeprecationWarnings = true;
     if (data.value === '今天') {
-      var StartTime = moment().format('YYYY-M-D 00:00'); //近一天的起时间
+      var StartTime = moment().format('YYYY-MM-DD 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'days')
-        .format('YYYY-M-D 00:00');
+        .format('YYYY-MM-DD 00:00');
       const message = await this.lost
         .createQueryBuilder()
         .where('Lost_send_time BETWEEN :start AND :end')
@@ -52,7 +52,7 @@ export class ChartService {
         y[i] = 0;
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Lost_send_time).format('H');
+        let time = moment(message[j].Lost_send_time).format('HH');
         y[time] += 1;
       }
       return { point: x, num: y };
@@ -60,10 +60,10 @@ export class ChartService {
     if (data.value === '近30天') {
       var StartTime = moment()
         .subtract(29, 'days')
-        .format('YYYY-M-D 00:00'); //近一天的起时间
+        .format('YYYY-MM-DD 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'days')
-        .format('YYYY-M-D 00:00');
+        .format('YYYY-MM-DD 00:00');
       const message = await this.lost
         .createQueryBuilder()
         .where('Lost_send_time BETWEEN :start AND :end')
@@ -75,7 +75,7 @@ export class ChartService {
       var x = new Array(30);
       var y = new Array(30);
       var flag = {}; //时间对应的下标
-      var start = moment(StartTime).format('M-D');
+      var start = moment(StartTime).format('MM-DD');
       for (var i = 0; i < 30; i++) {
         x[i] = start;
         y[i] = 0;
@@ -84,10 +84,10 @@ export class ChartService {
         flag[key] = value; //添加属性
         start = moment(start)
           .add(1, 'days')
-          .format('M-D');
+          .format('MM-DD');
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Lost_send_time).format('M-D');
+        let time = moment(message[j].Lost_send_time).format('MM-DD');
         y[flag[time]] += 1; //利用时间获得数组下标并添加
       }
       return { point: x, num: y };
@@ -95,10 +95,10 @@ export class ChartService {
     if (data.value === '近一年') {
       var StartTime = moment()
         .subtract(11, 'months')
-        .format('YYYY-M-1 00:00'); //近一天的起时间
+        .format('YYYY-MM-01 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'months')
-        .format('YYYY-M-1 00:00');
+        .format('YYYY-MM-01 00:00');
       const message = await this.lost
         .createQueryBuilder()
         .where('Lost_send_time BETWEEN :start AND :end')
@@ -110,7 +110,7 @@ export class ChartService {
       var x = new Array(12);
       var y = new Array(12);
       var flag = {}; //时间对应的下标
-      var start = moment(StartTime).format('YYYY-M');
+      var start = moment(StartTime).format('YYYY-MM');
       for (var i = 0; i < 12; i++) {
         x[i] = start;
         y[i] = 0;
@@ -119,10 +119,10 @@ export class ChartService {
         flag[key] = value; //添加属性
         start = moment(start)
           .add(1, 'months')
-          .format('YYYY-M');
+          .format('YYYY-MM');
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Lost_send_time).format('YYYY-M');
+        let time = moment(message[j].Lost_send_time).format('YYYY-MM');
         y[flag[time]] += 1; //利用时间获得数组下标并添加
       }
       return { point: x, num: y };
@@ -133,10 +133,10 @@ export class ChartService {
     const moment = require('moment');
     moment.suppressDeprecationWarnings = true;
     if (data.value === '今天') {
-      var StartTime = moment().format('YYYY-M-D 00:00'); //近一天的起时间
+      var StartTime = moment().format('YYYY-MM-DD 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'days')
-        .format('YYYY-M-D 00:00');
+        .format('YYYY-MM-DD 00:00');
       const message = await this.comment
         .createQueryBuilder()
         .where('Com_do_time BETWEEN :start AND :end')
@@ -152,7 +152,7 @@ export class ChartService {
         y[i] = 0;
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Com_do_time).format('H');
+        let time = moment(message[j].Com_do_time).format('HH');
         y[time] += 1;
       }
       return { point: x, num: y };
@@ -160,10 +160,10 @@ export class ChartService {
     if (data.value === '近30天') {
       var StartTime = moment()
         .subtract(29, 'days')
-        .format('YYYY-M-D 00:00'); //近一天的起时间
+        .format('YYYY-MM-DD 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'days')
-        .format('YYYY-M-D 00:00');
+        .format('YYYY-MM-DD 00:00');
       const message = await this.comment
         .createQueryBuilder()
         .where('Com_do_time BETWEEN :start AND :end')
@@ -175,7 +175,7 @@ export class ChartService {
       var x = new Array(30);
       var y = new Array(30);
       var flag = {}; //时间对应的下标
-      var start = moment(StartTime).format('M-D');
+      var start = moment(StartTime).format('MM-DD');
       for (var i = 0; i < 30; i++) {
         x[i] = start;
         y[i] = 0;
@@ -184,10 +184,10 @@ export class ChartService {
         flag[key] = value; //添加属性
         start = moment(start)
           .add(1, 'days')
-          .format('M-D');
+          .format('MM-DD');
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Com_do_time).format('M-D');
+        let time = moment(message[j].Com_do_time).format('MM-DD');
         y[flag[time]] += 1; //利用时间获得数组下标并添加
       }
       return { point: x, num: y };
@@ -195,10 +195,10 @@ export class ChartService {
     if (data.value === '近一年') {
       var StartTime = moment()
         .subtract(11, 'months')
-        .format('YYYY-M-1 00:00'); //近一天的起时间
+        .format('YYYY-MM-01 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'months')
-        .format('YYYY-M-1 00:00');
+        .format('YYYY-MM-01 00:00');
       const message = await this.comment
         .createQueryBuilder()
         .where('Com_do_time BETWEEN :start AND :end')
@@ -210,7 +210,7 @@ export class ChartService {
       var x = new Array(12);
       var y = new Array(12);
       var flag = {}; //时间对应的下标
-      var start = moment(StartTime).format('YYYY-M');
+      var start = moment(StartTime).format('YYYY-MM');
       for (var i = 0; i < 12; i++) {
         x[i] = start;
         y[i] = 0;
@@ -219,10 +219,10 @@ export class ChartService {
         flag[key] = value; //添加属性
         start = moment(start)
           .add(1, 'months')
-          .format('YYYY-M');
+          .format('YYYY-MM');
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Com_do_time).format('YYYY-M');
+        let time = moment(message[j].Com_do_time).format('YYYY-MM');
         y[flag[time]] += 1; //利用时间获得数组下标并添加
       }
       return { point: x, num: y };
@@ -233,10 +233,10 @@ export class ChartService {
     const moment = require('moment');
     moment.suppressDeprecationWarnings = true;
     if (data.value === '今天') {
-      var StartTime = moment().format('YYYY-M-D 00:00'); //近一天的起时间
+      var StartTime = moment().format('YYYY-MM-DD 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'days')
-        .format('YYYY-M-D 00:00');
+        .format('YYYY-MM-DD 00:00');
       const message = await this.returnmessage
         .createQueryBuilder()
         .where('Return_time BETWEEN :start AND :end')
@@ -252,7 +252,7 @@ export class ChartService {
         y[i] = 0;
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Return_time).format('H');
+        let time = moment(message[j].Return_time).format('HH');
         y[time] += 1;
       }
       return { point: x, num: y };
@@ -260,10 +260,10 @@ export class ChartService {
     if (data.value === '近30天') {
       var StartTime = moment()
         .subtract(29, 'days')
-        .format('YYYY-M-D 00:00'); //近一天的起时间
+        .format('YYYY-MM-DD 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'days')
-        .format('YYYY-M-D 00:00');
+        .format('YYYY-MM-DD 00:00');
       const message = await this.returnmessage
         .createQueryBuilder()
         .where('Return_time BETWEEN :start AND :end')
@@ -275,7 +275,7 @@ export class ChartService {
       var x = new Array(30);
       var y = new Array(30);
       var flag = {}; //时间对应的下标
-      var start = moment(StartTime).format('M-D');
+      var start = moment(StartTime).format('MM-DD');
       for (var i = 0; i < 30; i++) {
         x[i] = start;
         y[i] = 0;
@@ -284,10 +284,10 @@ export class ChartService {
         flag[key] = value; //添加属性
         start = moment(start)
           .add(1, 'days')
-          .format('M-D');
+          .format('MM-DD');
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Return_time).format('M-D');
+        let time = moment(message[j].Return_time).format('MM-DD');
         y[flag[time]] += 1; //利用时间获得数组下标并添加
       }
       return { point: x, num: y };
@@ -295,10 +295,10 @@ export class ChartService {
     if (data.value === '近一年') {
       var StartTime = moment()
         .subtract(11, 'months')
-        .format('YYYY-M-1 00:00'); //近一天的起时间
+        .format('YYYY-MM-01 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'months')
-        .format('YYYY-M-1 00:00');
+        .format('YYYY-MM-01 00:00');
       const message = await this.returnmessage
         .createQueryBuilder()
         .where('Return_time BETWEEN :start AND :end')
@@ -310,7 +310,7 @@ export class ChartService {
       var x = new Array(12);
       var y = new Array(12);
       var flag = {}; //时间对应的下标
-      var start = moment(StartTime).format('YYYY-M');
+      var start = moment(StartTime).format('YYYY-MM');
       for (var i = 0; i < 12; i++) {
         x[i] = start;
         y[i] = 0;
@@ -319,10 +319,10 @@ export class ChartService {
         flag[key] = value; //添加属性
         start = moment(start)
           .add(1, 'months')
-          .format('YYYY-M');
+          .format('YYYY-MM');
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Return_time).format('YYYY-M');
+        let time = moment(message[j].Return_time).format('YYYY-MM');
         y[flag[time]] += 1; //利用时间获得数组下标并添加
       }
       return { point: x, num: y };
@@ -333,10 +333,10 @@ export class ChartService {
     const moment = require('moment');
     moment.suppressDeprecationWarnings = true;
     if (data.value === '今天') {
-      var StartTime = moment().format('YYYY-M-D 00:00'); //近一天的起时间
+      var StartTime = moment().format('YYYY-MM-DD 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'days')
-        .format('YYYY-M-D 00:00');
+        .format('YYYY-MM-DD 00:00');
       const message = await this.recruit
         .createQueryBuilder()
         .where('Rec_send_time BETWEEN :start AND :end')
@@ -352,7 +352,7 @@ export class ChartService {
         y[i] = 0;
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Rec_send_time).format('H');
+        let time = moment(message[j].Rec_send_time).format('HH');
         y[time] += 1;
       }
       return { point: x, num: y };
@@ -360,10 +360,10 @@ export class ChartService {
     if (data.value === '近30天') {
       var StartTime = moment()
         .subtract(29, 'days')
-        .format('YYYY-M-D 00:00'); //近一天的起时间
+        .format('YYYY-MM-DD 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'days')
-        .format('YYYY-M-D 00:00');
+        .format('YYYY-MM-DD 00:00');
       const message = await this.recruit
         .createQueryBuilder()
         .where('Rec_send_time BETWEEN :start AND :end')
@@ -375,7 +375,7 @@ export class ChartService {
       var x = new Array(30);
       var y = new Array(30);
       var flag = {}; //时间对应的下标
-      var start = moment(StartTime).format('M-D');
+      var start = moment(StartTime).format('MM-DD');
       for (var i = 0; i < 30; i++) {
         x[i] = start;
         y[i] = 0;
@@ -384,10 +384,10 @@ export class ChartService {
         flag[key] = value; //添加属性
         start = moment(start)
           .add(1, 'days')
-          .format('M-D');
+          .format('MM-DD');
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Rec_send_time).format('M-D');
+        let time = moment(message[j].Rec_send_time).format('MM-DD');
         y[flag[time]] += 1; //利用时间获得数组下标并添加
       }
       return { point: x, num: y };
@@ -395,10 +395,10 @@ export class ChartService {
     if (data.value === '近一年') {
       var StartTime = moment()
         .subtract(11, 'months')
-        .format('YYYY-M-1 00:00'); //近一天的起时间
+        .format('YYYY-MM-01 00:00'); //近一天的起时间
       var LastTime = moment() //近一天的末时间
         .add(1, 'months')
-        .format('YYYY-M-1 00:00');
+        .format('YYYY-MM-01 00:00');
       const message = await this.recruit
         .createQueryBuilder()
         .where('Rec_send_time BETWEEN :start AND :end')
@@ -410,7 +410,7 @@ export class ChartService {
       var x = new Array(12);
       var y = new Array(12);
       var flag = {}; //时间对应的下标
-      var start = moment(StartTime).format('YYYY-M');
+      var start = moment(StartTime).format('YYYY-MM');
       for (var i = 0; i < 12; i++) {
         x[i] = start;
         y[i] = 0;
@@ -419,10 +419,10 @@ export class ChartService {
         flag[key] = value; //添加属性
         start = moment(start)
           .add(1, 'months')
-          .format('YYYY-M');
+          .format('YYYY-MM');
       }
       for (var j = 0; j < message.length; j++) {
-        let time = moment(message[j].Rec_send_time).format('YYYY-M');
+        let time = moment(message[j].Rec_send_time).format('YYYY-MM');
         y[flag[time]] += 1; //利用时间获得数组下标并添加
       }
       return { point: x, num: y };

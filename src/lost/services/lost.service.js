@@ -164,4 +164,19 @@ export class LostService {
     });
     return { data: message };
   }
+  async getDoit(data) {
+    if (data.result === 'true') {
+      const num = await this.lost.update(data.Lost_id, {
+        Lost_status: '未找到',
+      });
+      if (num.affected >= 1) return { result: 'true', msg: '已通过' };
+      else return { result: 'false', msg: '通过失败' };
+    } else {
+      const num = await this.lost.update(data.Lost_id, {
+        Lost_status: '审核拒绝',
+      });
+      if (num.affected >= 1) return { result: 'true', msg: '已拒绝' };
+      else return { result: 'false', msg: '拒绝失败' };
+    }
+  }
 }
