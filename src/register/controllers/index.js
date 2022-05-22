@@ -13,6 +13,7 @@ import { UserAddController } from './user-add.controller';
 import { UserInfoController } from './user-info.controller';
 import { UserPasswordController } from './userpassword.controller';
 import { UserCertificationController } from './usercertification.controller';
+import { DoitsController } from './doits.controller';
 export default [
   ShowController,
   UpdateController,
@@ -29,4 +30,5 @@ export default [
   UserInfoController,
   UserPasswordController,
   UserCertificationController,
+  DoitsController,
 ];

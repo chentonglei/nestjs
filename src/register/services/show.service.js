@@ -157,4 +157,48 @@ export class ShowService {
       else return { result: 'false', msg: '申请失败' };
     } else return { result: 'false', msg: '学校未入住' };
   }
+  async getDoits(data) {
+    var sum = 0;
+    var num;
+    if (data.Re_school_id === null) {
+      for (let i = 0; i < data.excelData.length; i++) {
+        const num = await this.register.update(
+          {
+            Re_id: data.excelData[i].Re_id,
+            Re_name: data.excelData[i].Re_name,
+          },
+          {
+            Re_status: '审核通过',
+          },
+        ); //添加
+        if (num.affected >= 1) sum += num.affected;
+      }
+      if (sum > 0)
+        return {
+          status: 'true',
+          str: `共${data.excelData.length}条数据，审核通过${sum}条`,
+        };
+      if (sum === 0) return { status: 'false' };
+    } else {
+      for (let i = 0; i < data.excelData.length; i++) {
+        const num = await this.register.update(
+          {
+            Re_id: data.excelData[i].Re_id,
+            Re_name: data.excelData[i].Re_name,
+            Re_school_id: data.Re_school_id,
+          },
+          {
+            Re_status: '审核通过',
+          },
+        ); //添加
+        if (num.affected >= 1) sum += num.affected;
+      }
+      if (sum > 0)
+        return {
+          status: 'true',
+          str: `共${data.excelData.length}条数据，审核通过${sum}条`,
+        };
+      if (sum === 0) return { status: 'false' };
+    }
+  }
 }

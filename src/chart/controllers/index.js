@@ -4,6 +4,7 @@ import { ReturnController } from './return.controller';
 import { CommentController } from './comment.controller';
 import { UserController } from './user.controller';
 import { SchoolController } from './school.controller';
+import { ShowController } from './show.controller';
 export default [
   LostController,
   RecruitController,
@@ -11,4 +12,5 @@ export default [
   CommentController,
   UserController,
   SchoolController,
+  ShowController,
 ];
