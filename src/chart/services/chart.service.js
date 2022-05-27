@@ -459,9 +459,7 @@ export class ChartService {
     return body;
   }
   async getWelcome() {
-    var arr = [];
-    const user = await this.register.find({ Re_power: 'user' });
     const returnnum = await this.returnmessage.find();
-    return `本系统共计${user.length}名用户共完成${returnnum.length}次的失物归还`;
+    return `本系统帮助用户共计完成${returnnum.length}次的失物归还`;
   }
 }
