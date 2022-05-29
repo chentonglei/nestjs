@@ -84,6 +84,7 @@ export class LostService {
         people_name: `%${searchKeys.Lost_people_name}%`,
         people_phone: `%${searchKeys.Lost_people_phone}%`,
       })
+      .orderBy('Lost_id', 'DESC')
       .skip((current - 1) * pageSize)
       .take(pageSize) //分页操作
       .getMany();

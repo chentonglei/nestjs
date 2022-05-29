@@ -69,6 +69,7 @@ export class SchoolService {
         applicant_id: `%${searchKeys.Sch_applicant_id}%`,
         applicant_name: `%${searchKeys.Sch_applicant_name}%`,
       })
+      .orderBy('Sch_time', 'DESC')
       .skip((current - 1) * pageSize)
       .take(pageSize) //分页操作
       .getMany();
@@ -79,21 +80,27 @@ export class SchoolService {
   }
   async getDoit(data) {
     if (data.result === 'true') {
-      const num = await this.school.update(data.Sch_id, {
-        Sch_status: '审核通过',
-      });
+      const num = await this.school.update(
+        { id: data.id },
+        {
+          Sch_status: '审核通过',
+        },
+      );
       if (num.affected >= 1) return { result: 'true', msg: '已通过' };
       else return { result: 'false', msg: '通过失败' };
     } else {
-      const num = await this.school.update(data.Sch_id, {
-        Sch_status: '审核拒绝',
-      });
+      const num = await this.school.update(
+        { id: data.id },
+        {
+          Sch_status: '审核拒绝',
+        },
+      );
       if (num.affected >= 1) return { result: 'true', msg: '已拒绝' };
       else return { result: 'false', msg: '拒绝失败' };
     }
   }
   async getDelete(data) {
-    const num = await this.school.delete(data.id);
+    const num = await this.school.delete({ id: data.id });
     if (num.affected >= 1) return { result: 'true', msg: '删除成功' };
     else return { result: 'false', msg: '删除失败，请重试' };
   }

@@ -76,6 +76,7 @@ export class RecruitService {
         people_name: `%${searchKeys.Rec_people_name}%`,
         people_phone: `%${searchKeys.Rec_people_phone}%`,
       })
+      .orderBy('Rec_id', 'DESC')
       .skip((current - 1) * pageSize)
       .take(pageSize) //分页操作
       .getMany();
